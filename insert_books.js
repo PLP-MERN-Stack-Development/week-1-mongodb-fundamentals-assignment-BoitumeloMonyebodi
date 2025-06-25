@@ -1,3 +1,4 @@
+
 // insert_books.js - Script to populate MongoDB with sample book data
 
 // Import MongoDB client
@@ -196,3 +197,128 @@ insertBooks().catch(console.error);
  * 5. Find in-stock books:
  *    db.books.find({ in_stock: true })
  */ 
+// insert_books.js
+
+const { MongoClient } = require('mongodb');
+
+async function main() {
+  const client = new MongoClient(uri);
+
+  try {
+    await client.connect();
+    const db = client.db('plp_bookstore');
+    const books = db.collection('books');
+
+    const bookDocs = [
+      {
+        title: 'The Great Gatsby',
+        author: 'F. Scott Fitzgerald',
+        genre: 'Classic',
+        published_year: 1925,
+        price: 10.99,
+        in_stock: true,
+        pages: 218,
+        publisher: 'Scribner',
+      },
+      {
+        title: '1984',
+        author: 'George Orwell',
+        genre: 'Dystopian',
+        published_year: 1949,
+        price: 8.99,
+        in_stock: true,
+        pages: 328,
+        publisher: 'Secker & Warburg',
+      },
+      {
+        title: 'To Kill a Mockingbird',
+        author: 'Harper Lee',
+        genre: 'Classic',
+        published_year: 1960,
+        price: 12.99,
+        in_stock: false,
+        pages: 281,
+        publisher: 'J.B. Lippincott & Co.',
+      },
+      {
+        title: 'The Hobbit',
+        author: 'J.R.R. Tolkien',
+        genre: 'Fantasy',
+        published_year: 1937,
+        price: 14.99,
+        in_stock: true,
+        pages: 310,
+        publisher: 'George Allen & Unwin',
+      },
+      {
+        title: 'The Catcher in the Rye',
+        author: 'J.D. Salinger',
+        genre: 'Classic',
+        published_year: 1951,
+        price: 9.99,
+        in_stock: true,
+        pages: 234,
+        publisher: 'Little, Brown and Company',
+      },
+      {
+        title: 'Brave New World',
+        author: 'Aldous Huxley',
+        genre: 'Dystopian',
+        published_year: 1932,
+        price: 11.99,
+        in_stock: true,
+        pages: 311,
+        publisher: 'Chatto & Windus',
+      },
+      {
+        title: 'Harry Potter and the Sorcerer\'s Stone',
+        author: 'J.K. Rowling',
+        genre: 'Fantasy',
+        published_year: 1997,
+        price: 15.99,
+        in_stock: true,
+        pages: 309,
+        publisher: 'Bloomsbury',
+      },
+      {
+        title: 'The Da Vinci Code',
+        author: 'Dan Brown',
+        genre: 'Thriller',
+        published_year: 2003,
+        price: 13.99,
+        in_stock: false,
+        pages: 454,
+        publisher: 'Doubleday',
+      },
+      {
+        title: 'The Hunger Games',
+        author: 'Suzanne Collins',
+        genre: 'Dystopian',
+        published_year: 2008,
+        price: 10.5,
+        in_stock: true,
+        pages: 374,
+        publisher: 'Scholastic Press',
+      },
+      {
+        title: 'The Fault in Our Stars',
+        author: 'John Green',
+        genre: 'Young Adult',
+        published_year: 2012,
+        price: 12.5,
+        in_stock: true,
+        pages: 313,
+        publisher: 'Dutton Books',
+      },
+    ];
+
+    const result = await books.insertMany(bookDocs);
+    console.log(`Inserted ${result.insertedCount} books`);
+  } catch (err) {
+    console.error('Error inserting books:', err);
+  } finally {
+    await client.close();
+  }
+}
+
+main();
